@@ -12,8 +12,8 @@ import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
 import com.networknt.schema.ValidationMessage;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.kie.yard.api.model.YaRD;
 
 public class MarshallingTest {
@@ -43,8 +43,7 @@ public class MarshallingTest {
             validate.forEach(System.out::println);
             assertThat(validate).isEmpty();
         } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail(e.getMessage());
+            Assertions.fail(e.getMessage(), e);
         }
     }
 }

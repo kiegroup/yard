@@ -11,6 +11,7 @@
 
     <properties>
         <maven.compiler.release>8</maven.compiler.release> <!-- this API artifact no special feature, make it most consumable -->
+        <java.module.name>org.kie.yard.api</java.module.name>
     </properties>
 
     <dependencies>
@@ -29,7 +30,7 @@
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>crd-generator-api</artifactId>
-            <version>5.12.1</version>
+            <version>${version.io.fabric8.crd-generator-api}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -38,9 +39,9 @@
             <version>${version.jackson}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${version.org.junit}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -52,13 +53,13 @@
         <dependency>
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
-            <version>1.0.66</version>
+            <version>${version.com.networknt.json-schema-validator}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.22.0</version>
+            <version>${version.org.assertj}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
