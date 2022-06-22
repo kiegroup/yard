@@ -45,6 +45,18 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${version.org.assertj}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version.ch.qos.logback}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${version.jackson}</version>
@@ -54,12 +66,6 @@
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
             <version>${version.com.networknt.json-schema-validator}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${version.org.assertj}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
