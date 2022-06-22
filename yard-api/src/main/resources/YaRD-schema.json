@@ -38,7 +38,8 @@
           "type" : {
             "const" : "DecisionTable"
           }
-        }
+        },
+        "required" : [ "type" ]
       } ]
     },
     "Element" : {
@@ -100,7 +101,8 @@
           "type" : {
             "const" : "LiteralExpression"
           }
-        }
+        },
+        "required" : [ "type" ]
       } ]
     },
     "WhenThenRule" : {
