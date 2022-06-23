@@ -1,0 +1,15 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: my-trigger1
+spec:
+  broker: my-broker
+  filter:
+    attributes:
+      type: my.demo.event
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: jitexecutor-yaml
+    uri: /yard
