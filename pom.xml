@@ -53,7 +53,6 @@
         <version.jackson>2.13.3</version.jackson><!-- need alignments with Drools jackson version -->
           <version.victools>4.24.3</version.victools><!-- might need some alignment with jackson version (might be solved by extracting in its own module) -->
       <version.quarkus>2.9.2.Final</version.quarkus>
-        <version.io.smallrye.openapi>2.1.22</version.io.smallrye.openapi>
     <version.io.fabric8.crd-generator-api>5.12.1</version.io.fabric8.crd-generator-api>
     <version.org.junit>5.8.1</version.org.junit>
     <version.ch.qos.logback>1.2.11</version.ch.qos.logback>
