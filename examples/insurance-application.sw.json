@@ -1,0 +1,80 @@
+{
+    "id": "applicantrequest",
+    "version": "1.0",
+    "specVersion": "0.8",
+    "name": "Applicant Request Decision Workflow",
+    "description": "Determine base price if insurance applicant is allowed",
+    "start": "CheckApplication",
+    "states": [
+        {
+            "name": "CheckApplication",
+            "type": "switch",
+            "dataConditions": [
+                {
+                    "condition": "${ .applicant.age >= 18 }",
+                    "transition": "DetermineBasePrice"
+                },
+                {
+                    "condition": "${ .applicant.age < 18 }",
+                    "transition": "RejectApplication"
+                }
+            ],
+            "defaultCondition": {
+                "transition": "RejectApplication"
+            }
+        },
+        {
+            "name": "DetermineBasePrice",
+            "type": "operation",
+            "actionMode": "sequential",
+            "actions": [
+                {
+                    "functionRef": {
+                        "refName": "determineBasePriceFunction",
+                        "arguments": {
+                            "Age": "${ .applicant.age }",
+                            "Previous incidents?": "${ .applicant.incidentsCount > 0 }"
+                        }
+                    }
+                }
+            ],
+            "transition": "ProduceOffer"
+        },
+        {
+            "name": "ProduceOffer",
+            "type": "operation",
+            "actions": [
+                {
+                    "subFlowRef": "startApplicationWorkflowId"
+                }
+            ],
+            "end": true
+        },
+        {
+            "name": "RejectApplication",
+            "type": "operation",
+            "actionMode": "sequential",
+            "actions": [
+                {
+                    "functionRef": {
+                        "refName": "sendRejectionEmailFunction",
+                        "arguments": {
+                            "applicant": "${ .applicant }"
+                        }
+                    }
+                }
+            ],
+            "end": true
+        }
+    ],
+    "functions": [
+        {
+            "name": "sendRejectionEmailFunction",
+            "operation": "http://myapis.org/applicationapi.json#emailRejection"
+        },
+        {
+            "name": "determineBasePriceFunction",
+            "operation": "http://myapis.org/applicationapi.json#BasePrice"
+        }
+    ]
+}
