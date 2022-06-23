@@ -1,0 +1,9 @@
+version: "3.9"
+   
+services:
+  rest:
+    image: quay.io/mmortari/yard-impl1-jitexecutor:ksvc
+    ports:
+      - "8080:8080"
+    environment:
+      - MYYARD=${output}

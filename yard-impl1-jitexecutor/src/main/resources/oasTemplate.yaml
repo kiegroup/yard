@@ -1,0 +1,24 @@
+---
+openapi: 3.0.3
+info:
+  title: yard-impl1-jitexecutor API
+  version: 2.0.0-SNAPSHOT
+paths:
+  /yard:
+    post:
+      tags:
+      - Endpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
