@@ -48,6 +48,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <version.kogito>1.22.1.Final</version.kogito>
       <version.org.drools>8.22.1.Beta</version.org.drools><!-- using 8 to keep kogito alignment -->
         <version.jackson>2.13.3</version.jackson><!-- need alignments with Drools jackson version -->
@@ -129,6 +130,7 @@
     <module>yard-impl1</module>
     <module>yard-impl1-cli</module>
     <module>yard-impl1-jitexecutor</module>
+    <module>yard-impl1-operator</module>
   </modules>
 
 </project>

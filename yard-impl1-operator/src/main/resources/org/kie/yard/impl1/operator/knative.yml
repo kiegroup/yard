@@ -1,0 +1,49 @@
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 9112cf25ebfb8550c7c5770a0a9653256af5b0b3
+    app.quarkus.io/build-timestamp: 2022-06-24 - 08:58:37 +0000
+  labels:
+    app.kubernetes.io/name: yard-impl1-jitexecutor
+    app.kubernetes.io/version: ksvc
+  name: yard-impl1-jitexecutor
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: yard-impl1-jitexecutor
+        app.kubernetes.io/version: ksvc
+    spec:
+      containerConcurrency: 0
+      containers:
+        - image: quay.io/mmortari/yard-impl1-jitexecutor:ksvc
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: null
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: yard-impl1-jitexecutor
+          ports:
+            - containerPort: 8080
+              name: http1
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: null
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          env:
+            - name: myYaRD
+              value: "specVersion: alpha\nkind: YaRD\nname: 'BasePrice'\nexpressionLang: alpha\ninputs:\n- name: 'Age'\n  type: number\n- name: 'Previous incidents?'\n  type: boolean\nelements:\n- name: 'Base price'\n  type: Decision\n  logic: \n    type: DecisionTable\n    inputs: ['Age', 'Previous incidents?']\n    rules:\n      - when: ['<21', false]\n        then: 1\n      - when: ['<21', true]\n        then: 2\n      - when: ['>=21', false]\n        then: 3\n      - when: ['>=21', true]\n        then: 4\n"
