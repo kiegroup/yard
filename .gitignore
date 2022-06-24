@@ -19,3 +19,6 @@ target/
 .factorypath
 .vscode
 .run/
+
+#local environments
+.env
