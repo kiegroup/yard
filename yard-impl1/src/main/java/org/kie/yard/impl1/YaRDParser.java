@@ -79,9 +79,17 @@ public class YaRDParser {
     private Expression createDecisionLogic(DecisionLogic decisionLogic) {
         if (decisionLogic instanceof org.kie.yard.api.model.DecisionTable) {
             return createDecisionTable((org.kie.yard.api.model.DecisionTable) decisionLogic);
+        } else if (decisionLogic instanceof org.kie.yard.api.model.LiteralExpression) {
+            return createLiteralExpression((org.kie.yard.api.model.LiteralExpression) decisionLogic);
         } else {
             throw new UnsupportedOperationException("TODO");
         }
+    }
+
+    private Expression createLiteralExpression(org.kie.yard.api.model.LiteralExpression logic) {
+        LiteralExpression lt = new TLiteralExpression();
+        lt.setText(logic.getExpression());
+        return lt;
     }
 
     private Expression createDecisionTable(org.kie.yard.api.model.DecisionTable logic) {

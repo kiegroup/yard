@@ -1,0 +1,31 @@
+specVersion: alpha
+kind: YaRD
+name: "Traffic Violation"
+# expressionLang: FEEL
+inputs:
+  - name: "Driver"
+    type: "http://myapi.org/jsonSchema.json#Driver"
+  - name: "Violation"
+    type: "http://myapi.org/jsonSchema.json#Violation"
+elements:
+  - name: "Fine"
+    type: Decision
+    logic:
+      type: DecisionTable
+      inputs: ["Violation.Type", "Violation.Actual Speed - Violation.Speed Limit"]
+      rules:
+        - when: ['="speed"', "[10..30)"]
+          then: '{ "Amount": 500, "Points": 3}'
+        - when: ['="speed"', ">= 30"]
+          then: '{ "Amount": 1000, "Points": 7}'
+        - when: ['="parking"', "-"]
+          then: '{ "Amount": 100, "Points": 1}'
+        - when: ['="driving under the influence"', "-"]
+          then: '{ "Amount": 1000, "Points": 5}'
+  - name: "Should the driver be suspended?"
+    type: Decision
+    logic:
+      type: LiteralExpression
+      expression: 'if Driver.Points + Fine.Points >= 20 then "Yes" else "No"'
+---
+

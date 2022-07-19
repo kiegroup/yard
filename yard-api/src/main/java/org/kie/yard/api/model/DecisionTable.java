@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class DecisionTable extends DecisionLogic { 
     @JsonProperty(required = true)
     private List<String> inputs;
+    @Deprecated
     @JsonProperty()
     private List<String> outputComponents;
     @JsonProperty(required = true)
@@ -22,6 +23,7 @@ public class DecisionTable extends DecisionLogic {
         return inputs;
     }
 
+    @Deprecated
     public List<String> getOutputComponents() {
         return outputComponents;
     }
