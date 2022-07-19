@@ -49,11 +49,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <version.kogito>1.22.1.Final</version.kogito>
-      <version.org.drools>8.22.1.Beta</version.org.drools><!-- using 8 to keep kogito alignment -->
+    <version.kogito>1.24.0.Final</version.kogito>
+      <version.org.drools>8.24.0.Beta</version.org.drools><!-- using 8 to keep kogito alignment -->
         <version.jackson>2.13.3</version.jackson><!-- need alignments with Drools jackson version -->
           <version.victools>4.24.3</version.victools><!-- might need some alignment with jackson version (might be solved by extracting in its own module) -->
-      <version.quarkus>2.9.2.Final</version.quarkus>
+      <version.quarkus>2.10.2.Final</version.quarkus>
     <version.io.fabric8.crd-generator-api>5.12.1</version.io.fabric8.crd-generator-api>
     <version.org.junit>5.8.1</version.org.junit>
     <version.ch.qos.logback>1.2.11</version.ch.qos.logback>
