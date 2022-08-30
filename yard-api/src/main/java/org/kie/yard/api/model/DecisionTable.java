@@ -4,16 +4,20 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-@JsonPropertyOrder({ "inputs" })
+@JsonPropertyOrder({ "inputs", "hitPolicy", "rules" })
 public class DecisionTable extends DecisionLogic { 
     @JsonProperty(required = true)
     private List<String> inputs;
+    @JsonProperty(defaultValue = "ANY")
+    private String hitPolicy = "ANY";
     @Deprecated
+    @JsonPropertyDescription("deprecated")
     @JsonProperty()
     private List<String> outputComponents;
     @JsonProperty(required = true)
@@ -26,6 +30,14 @@ public class DecisionTable extends DecisionLogic {
     @Deprecated
     public List<String> getOutputComponents() {
         return outputComponents;
+    }
+
+    public String getHitPolicy() {
+        return hitPolicy;
+    }
+
+    public void setHitPolicy(String hitPolicy) {
+        this.hitPolicy = hitPolicy;
     }
 
     public List<Rule> getRules() {

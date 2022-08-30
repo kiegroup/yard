@@ -96,7 +96,7 @@ public class YaRDParser {
         List<String> inputs = logic.getInputs();
         List<Rule> rules = logic.getRules();
         DecisionTable dt = new TDecisionTable();
-        dt.setHitPolicy(HitPolicy.ANY);
+        dt.setHitPolicy(HitPolicy.fromValue(logic.getHitPolicy()));
         for (String i : inputs) {
             InputClause ic = new TInputClause();
             ic.setLabel(i);
