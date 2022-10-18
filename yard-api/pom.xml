@@ -15,12 +15,6 @@
     </properties>
 
     <dependencies>
-        <!-- <dependency> this is used by the maven build so let's make Maven aware of it
-            <groupId>org.kie.yard</groupId>
-            <artifactId>yard-api-bootstrap</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency> -->
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>crd-generator-api</artifactId>
