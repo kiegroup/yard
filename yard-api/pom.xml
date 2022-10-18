@@ -15,18 +15,12 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.victools</groupId>
-            <artifactId>jsonschema-generator</artifactId>
-            <version>${version.victools}</version>
+        <!-- <dependency> this is used by the maven build so let's make Maven aware of it
+            <groupId>org.kie.yard</groupId>
+            <artifactId>yard-api-bootstrap</artifactId>
+            <version>${project.version}</version>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.github.victools</groupId>
-            <artifactId>jsonschema-module-jackson</artifactId>
-            <version>${version.victools}</version>
-            <optional>true</optional>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>crd-generator-api</artifactId>
@@ -72,18 +66,9 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>org/kie/yard/api/generator/*</exclude> <!-- this can be refactored later into a selfcontained, isolated maven module -->
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <?m2e ignore?><!-- relies only on Maven-based build -->
@@ -92,10 +77,21 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>org.kie.yard.api.generator.Generator</mainClass>
+                            <includePluginDependencies>true</includePluginDependencies>
+                            <mainClass>org.kie.yard.api.boostrap.generator.Generator</mainClass>
+                            <arguments>
+                                <argument>${project.basedir}</argument>>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.kie.yard</groupId>
+                        <artifactId>yard-api-bootstrap</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
