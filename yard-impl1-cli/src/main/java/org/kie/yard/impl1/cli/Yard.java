@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
-import org.drools.util.io.ReaderResource;
+import org.drools.io.ReaderResource;
 import org.drools.util.IoUtils;
 import org.kie.dmn.api.core.DMNContext;
 import org.kie.dmn.api.core.DMNDecisionResult;

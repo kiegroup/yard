@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.drools.util.IoUtils;
-import org.drools.util.io.ReaderResource;
+import org.drools.io.ReaderResource;
 import org.junit.jupiter.api.Test;
 import org.kie.dmn.api.core.DMNContext;
 import org.kie.dmn.api.core.DMNResult;

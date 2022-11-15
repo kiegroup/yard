@@ -82,7 +82,7 @@ public class YaRDParser {
         } else if (decisionLogic instanceof org.kie.yard.api.model.LiteralExpression) {
             return createLiteralExpression((org.kie.yard.api.model.LiteralExpression) decisionLogic);
         } else {
-            throw new UnsupportedOperationException("TODO");
+            throw new UnsupportedOperationException("Not implemented in impl1 / TODO");
         }
     }
 
