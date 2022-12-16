@@ -15,9 +15,13 @@
   <name>Camel kdtable Component</name>
 
   <properties>
-    <maven.compiler.release>17</maven.compiler.release>
-    <maven.compiler.source>17</maven.compiler.source> <!-- see https://github.com/redhat-developer/vscode-java/issues/1290#issuecomment-1354796041 for VSCode -->
-    <maven.compiler.target>17</maven.compiler.target>
+    <!-- CAMEL-K-RUNTIME 1.16.0 RELEASE
+NEW AND NOTEWORTHY
+SUPPORTED JAVA VERSION
+This version supports Java 11. -->
+    <maven.compiler.release>11</maven.compiler.release>
+    <maven.compiler.source>11</maven.compiler.source> <!-- see https://github.com/redhat-developer/vscode-java/issues/1290#issuecomment-1354796041 for VSCode -->
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <dependencyManagement>
