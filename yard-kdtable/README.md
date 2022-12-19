@@ -2,6 +2,14 @@
 
 .
 
+## Camel JBang
+
+```sh
+$ camel run --deps=org.kie.yard:yard-kdtable:1.0-SNAPSHOT test.yaml 
+```
+
+takes from application.properties.
+
 ## Prepare Minikube kamel
 
 ```sh

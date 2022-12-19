@@ -1,5 +1,8 @@
-# camel-k: language=yaml
-
+# camel-k: language=yaml dependency=github:kiegroup/yard/kamelet
+ 
+- beans:
+  - name: myp
+    type: org.drools.yard.kdtable.KdtableProcessor
 - from:
     uri: "timer:yaml"
     parameters:
@@ -7,7 +10,8 @@
     steps:
       - setBody:
           constant: "Hello Camel K from yaml"
-      - to: "kdtable:mmortaridtable"
+      - process:
+          ref: myp
       - transform:
           simple: "${body.toUpperCase()}"
       - to: "log:info"
