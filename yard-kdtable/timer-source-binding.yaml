@@ -17,4 +17,4 @@ spec:
       apiVersion: camel.apache.org/v1alpha1
       name: mmk
     properties:
-      yard.kdtable: my asd value in KameletBinding
+      kdtable: my asd value in KameletBinding

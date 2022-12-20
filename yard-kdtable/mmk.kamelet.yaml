@@ -9,26 +9,18 @@ spec:
     title: "mmk"
     description: prova
     properties:
-      milliseconds:
-        title: Milliseconds
-        description: The number of milliseconds of delay
-        type: integer
-        example: 1000
-      yard.kdtable:
+      kdtable:
         title: prova
         description: prova
         type: object
   dependencies:
   - "camel:core"
   - "camel:kamelet"
-  - "github:kiegroup/yard/camelk-SNAPSHOT"
+  - "github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT"
   template:
-    beans:
-      - name: myp
-        type: org.drools.yard.kdtable.KdtableProcessor
     from:
       uri: "kamelet:source"
       steps:
       - process:
-          ref: myp
+          ref: '#class:org.drools.yard.kdtable.KdtableProcessor'
       - to: "log:info"
