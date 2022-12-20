@@ -21,7 +21,7 @@ spec:
   dependencies:
   - "camel:core"
   - "camel:kamelet"
-  - "github:kiegroup/yard/kamelet"
+  - "github:kiegroup/yard/camelk-SNAPSHOT"
   template:
     beans:
       - name: myp

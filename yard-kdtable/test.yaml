@@ -1,4 +1,4 @@
-# camel-k: language=yaml dependency=github:kiegroup/yard/kamelet
+# camel-k: language=yaml dependency=github:kiegroup/yard/camelk-SNAPSHOT
  
 - beans:
   - name: myp

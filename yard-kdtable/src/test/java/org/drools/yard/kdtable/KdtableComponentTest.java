@@ -1,6 +1,5 @@
 package org.drools.yard.kdtable;
 
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit5.CamelTestSupport;
@@ -13,7 +12,7 @@ public class KdtableComponentTest extends CamelTestSupport {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMinimumMessageCount(1);
 
-        context().getPropertiesComponent().addInitialProperty("mmortaridtable", "my asd value");
+        context().getPropertiesComponent().addInitialProperty("kdtable", "my asd value");
 
         template.sendBody("direct:start", "Hello World");
 
@@ -25,7 +24,7 @@ public class KdtableComponentTest extends CamelTestSupport {
         return new RouteBuilder() {
             public void configure() {
                 from("direct:start")
-                  .to("kdtable:mmortaridtable")
+                  .process(new KdtableProcessor())
                   .to("mock:result");
             }
         };

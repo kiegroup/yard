@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class KdtableProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(KdtableProcessor.class);
 
-    public static final String PROP_KEY = "yard.kdtable";
+    public static final String PROP_KEY = "kdtable";
 
     @Override
     public void process(Exchange exchange) throws Exception {
