@@ -18,6 +18,7 @@ public class KdtableProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         LOG.info("this processor/bean field 'kdtable' was set to: {}", kdtable);
+        LOG.info("this processor/bean field 'kdtable' class is: {}", kdtable.getClass());
         PropertiesComponent pc = exchange.getContext().getPropertiesComponent();
         LOG.info("for prop key {} value {}", PROP_KEY, pc.resolveProperty(PROP_KEY));
         Properties kdtableProps = pc.loadProperties(p -> p.contains(PROP_KEY));
