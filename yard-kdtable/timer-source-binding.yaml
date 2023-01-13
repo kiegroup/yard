@@ -17,13 +17,19 @@ spec:
         apiVersion: camel.apache.org/v1alpha1
         name: mmk
       properties:
-        kdtable: prova this value was set inside KameletBinding
-        kdtable2: this is an hack
+        kdtable:
+          type: DecisionTable
+          inputs: ['Violation.type', 'Violation.Actual Speed - Violation.Speed Limit']
+          outputComponents: ['Amount', 'Points']
+          rules:
+            - ['="speed"', '[10..30)', 500, 3]
+            - ['="speed"', '>= 30', 1000, 7]
+            - ['="parking"', '-', 100, 1]
+            - ['="driving under the influence"', '-', 1000, 5]
   sink:
     ref:
       kind: Kamelet
       apiVersion: camel.apache.org/v1alpha1
       name: mmk
     properties:
-      kdtable: prova this value was set inside KameletBinding
-      kdtable2: this is an hack
+      kdtable: prova this value was set inside KameletBinding where the kamelet is a sink

@@ -13,7 +13,7 @@ public class KdtableProcessor implements Processor {
 
     public static final String PROP_KEY = "kdtable";
 
-    private String kdtable;
+    private Object kdtable;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -24,11 +24,11 @@ public class KdtableProcessor implements Processor {
         LOG.info("kdtableProps: {}", kdtableProps);
     }
 
-    public String getKdtable() {
+    public Object getKdtable() {
         return kdtable;
     }
 
-    public void setKdtable(String kdtable) {
+    public void setKdtable(Object kdtable) {
         this.kdtable = kdtable;
     }
 }
