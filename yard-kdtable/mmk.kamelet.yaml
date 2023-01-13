@@ -12,15 +12,20 @@ spec:
       kdtable:
         title: prova
         description: prova
-        type: object
+        type: string
   dependencies:
   - "camel:core"
   - "camel:kamelet"
   - "github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT"
   template:
+    beans:
+      - name: mmbean
+        type: org.drools.yard.kdtable.KdtableProcessor
+        properties:
+          kdtable: '{{kdtable}}'
     from:
       uri: "kamelet:source"
       steps:
       - process:
-          ref: '#class:org.drools.yard.kdtable.KdtableProcessor'
+          ref: mmbean
       - to: "log:info"

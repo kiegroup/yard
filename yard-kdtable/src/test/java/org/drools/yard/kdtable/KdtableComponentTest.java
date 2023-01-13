@@ -12,7 +12,7 @@ public class KdtableComponentTest extends CamelTestSupport {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMinimumMessageCount(1);
 
-        context().getPropertiesComponent().addInitialProperty("kdtable", "my asd value");
+        context().getPropertiesComponent().addInitialProperty("kdtable", "this value was set with addInitialProperty");
 
         template.sendBody("direct:start", "Hello World");
 

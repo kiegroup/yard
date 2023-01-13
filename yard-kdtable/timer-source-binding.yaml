@@ -17,4 +17,4 @@ spec:
       apiVersion: camel.apache.org/v1alpha1
       name: mmk
     properties:
-      kdtable: my asd value in KameletBinding
+      kdtable: prova this value was set inside KameletBinding

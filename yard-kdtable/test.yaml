@@ -1,5 +1,10 @@
 # camel-k: language=yaml dependency=github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT
 
+- beans:
+  - name: mmbean
+    type: org.drools.yard.kdtable.KdtableProcessor
+    properties:
+      kdtable: 'prova this value was set inside test.yaml'
 - from:
     uri: "timer:yaml"
     parameters:
@@ -8,7 +13,7 @@
       - setBody:
           constant: "Hello Camel K from yaml"
       - process:
-          ref: '#class:org.drools.yard.kdtable.KdtableProcessor'
+          ref: 'mmbean'
       - transform:
           simple: "${body.toUpperCase()}"
       - to: "log:info"
