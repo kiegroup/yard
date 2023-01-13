@@ -13,6 +13,10 @@ spec:
         title: prova
         description: prova
         type: string
+      kdtable2:
+        title: prova
+        description: prova
+        type: string
   dependencies:
   - "camel:core"
   - "camel:kamelet"
@@ -20,12 +24,12 @@ spec:
   template:
     beans:
       - name: mmbean
-        type: org.drools.yard.kdtable.KdtableProcessor
+        type: '#class:org.drools.yard.kdtable.KdtableProcessor'
         properties:
           kdtable: '{{kdtable}}'
     from:
       uri: "kamelet:source"
       steps:
       - process:
-          ref: mmbean
+          ref: '{{mmbean}}'
       - to: "log:info"

@@ -11,6 +11,14 @@ spec:
     properties:
       message: hello world
       period: 5000
+  steps:
+    - ref:
+        kind: Kamelet
+        apiVersion: camel.apache.org/v1alpha1
+        name: mmk
+      properties:
+        kdtable: prova this value was set inside KameletBinding
+        kdtable2: this is an hack
   sink:
     ref:
       kind: Kamelet
@@ -18,3 +26,4 @@ spec:
       name: mmk
     properties:
       kdtable: prova this value was set inside KameletBinding
+      kdtable2: this is an hack
