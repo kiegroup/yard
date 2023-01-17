@@ -4,7 +4,18 @@
   - name: mmbean
     type: org.drools.yard.kdtable.KdtableProcessor
     properties:
-      kdtable: 'prova this value was set inside test.yaml'
+      kdtable: |
+        type: DecisionTable
+        inputs: ['Age', 'Previous incidents?']
+        rules:
+        - when: ['<21', false]
+          then: 800
+        - when: ['<21', true]
+          then: 1000
+        - when: ['>=21', false]
+          then: 500
+        - when: ['>=21', true]
+          then: 600
 - from:
     uri: "timer:yaml"
     parameters:

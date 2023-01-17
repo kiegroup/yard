@@ -7,12 +7,22 @@ import org.junit.jupiter.api.Test;
 
 public class KdtableComponentTest extends CamelTestSupport {
 
+    private static final String TEST_DT = "type: DecisionTable\n"
+    +"inputs: ['Age', 'Previous incidents?']\n"
+    +"rules:\n"
+    +"- when: ['<21', false]\n"
+    +"  then: 800\n"
+    +"- when: ['<21', true]\n"
+    +"  then: 1000\n"
+    +"- when: ['>=21', false]\n"
+    +"  then: 500\n"
+    +"- when: ['>=21', true]\n"
+    +"  then: 600\n";
+
     @Test
     public void test() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMinimumMessageCount(1);
-
-        context().getPropertiesComponent().addInitialProperty("kdtable", "this value was set with addInitialProperty");
 
         template.sendBody("direct:start", "Hello World");
 
@@ -21,10 +31,14 @@ public class KdtableComponentTest extends CamelTestSupport {
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
+        KdtableProcessor processor = new KdtableProcessor();
+        processor.setKdtable(TEST_DT); // here so that context+registry is available to bind bean, but right before route.
+        context().getRegistry().bind("mmbean", processor);
+
         return new RouteBuilder() {
             public void configure() {
                 from("direct:start")
-                  .process(new KdtableProcessor())
+                  .bean("mmbean")
                   .to("mock:result");
             }
         };

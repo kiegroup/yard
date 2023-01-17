@@ -44,6 +44,20 @@ This version supports Java 11. -->
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-support</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+      <version>2.13.4</version> <!-- same per org.apache.camel:camel-jackson -->
+    </dependency>
+    <dependency>
+      <groupId>org.kie.yard</groupId>
+      <artifactId>yard-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <!-- logging -->
     <dependency>

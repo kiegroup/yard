@@ -1,0 +1,39 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: Kamelet
+metadata:
+  name: kdtable
+  labels:
+    camel.apache.org/kamelet.type: "action"
+spec:
+  definition:
+    title: "YaRD Kamelet decision table"
+    description: |-
+      Experimental Kamelet processor supporting (only) YaRD's decision table.
+    required:
+    - kdtable
+    properties:
+      kdtable:
+        title: kdtable
+        description: the YaRD's decision table element
+        type: object
+      expressionLang:
+        title: expressionLang
+        description: can be blank
+        type: string
+  dependencies:
+  - "camel:core"
+  - "camel:kamelet"
+  - "github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT" # advised by Camel-K team for multimodule projects such as YaRD.
+  template:
+    beans:
+      - name: mmbean
+        type: '#class:org.drools.yard.kdtable.KdtableProcessor'
+        properties:
+          kdtable: '{{kdtable}}'
+          expressionLang: '{{expressionLang}}'
+    from:
+      uri: "kamelet:source"
+      steps:
+      - process:
+          ref: '{{mmbean}}'
+      - to: "log:info"

@@ -5,7 +5,7 @@
 ## Camel JBang
 
 ```sh
-$ camel run --deps=org.kie.yard:yard-kdtable:1.0-SNAPSHOT test.yaml 
+$ camel run --deps=org.kie.yard:yard-kdtable:1.0-SNAPSHOT flow-test.yaml 
 ```
 
 takes from application.properties.
