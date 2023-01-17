@@ -15,7 +15,7 @@ spec:
     - ref:
         kind: Kamelet
         apiVersion: camel.apache.org/v1alpha1
-        name: mmk
+        name: kdtable
       properties:
         # set as block string (undesirable, but the only available current workaround)
         kdtable: |
@@ -34,18 +34,4 @@ spec:
     ref:
       kind: Kamelet
       apiVersion: camel.apache.org/v1alpha1
-      name: mmk
-    properties:
-      # set as yaml, unfortunately it is not deserialized as a JSONNode or Map in Java, it is serialized as string by GoLang --iiuc
-      kdtable:
-        type: DecisionTable
-        inputs: ['Age', 'Previous incidents?']
-        rules:
-        - when: ['<21', false]
-          then: 800
-        - when: ['<21', true]
-          then: 1000
-        - when: ['>=21', false]
-          then: 500
-        - when: ['>=21', true]
-          then: 600
+      name: log-sink

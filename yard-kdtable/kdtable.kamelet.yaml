@@ -20,10 +20,11 @@ spec:
         title: expressionLang
         description: can be blank
         type: string
+        default: FEEL
   dependencies:
   - "camel:core"
   - "camel:kamelet"
-  - "github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT" # advised by Camel-K team for multimodule projects such as YaRD.
+  - "github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT" # advised by Camel-K team for multimodule projects such as YaRD. If updating snapshot, requires erase/delete the integration-kit and build on the cluster?
   template:
     beans:
       - name: mmbean
@@ -37,3 +38,4 @@ spec:
       - process:
           ref: '{{mmbean}}'
       - to: "log:info"
+      - to: "kamelet:sink"
