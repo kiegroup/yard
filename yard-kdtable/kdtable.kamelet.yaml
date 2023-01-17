@@ -20,7 +20,7 @@ spec:
         title: expressionLang
         description: can be blank
         type: string
-        default: ""
+        default: "null" # unable to use `null` in this kamelet definition, todo raise to camel-k team? 
       resultKey:
         title: resultKey
         description: can be blank

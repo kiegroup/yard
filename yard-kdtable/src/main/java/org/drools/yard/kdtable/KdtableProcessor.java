@@ -100,7 +100,7 @@ public class KdtableProcessor implements Processor {
         yard.setSpecVersion("alpha");
         yard.setKind("YaRD");
         yard.setName("generated");
-        if (expressionLang != null && !expressionLang.isEmpty()) { // deliberate kamelet spec camel-k definition default value empty string.
+        if (expressionLang != null && !expressionLang.isEmpty() && !expressionLang.equals("null")) { // deliberate kamelet spec camel-k definition default value "empty" string.
             yard.setExpressionLang(expressionLang);
         } else {
             yard.setExpressionLang(null);
