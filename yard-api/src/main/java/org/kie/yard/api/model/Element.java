@@ -38,4 +38,16 @@ public class Element {
     public DecisionLogic getLogic() {
         return logic;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setLogic(DecisionLogic logic) {
+        this.logic = logic;
+    }
 }

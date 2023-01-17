@@ -6,7 +6,7 @@ metadata:
     camel.apache.org/kamelet.type: "action"
 spec:
   definition:
-    title: "YaRD Kamelet decision table"
+    title: "Kamelet decision table with YaRD"
     description: |-
       Experimental Kamelet processor supporting (only) YaRD's decision table.
     required:
@@ -20,7 +20,12 @@ spec:
         title: expressionLang
         description: can be blank
         type: string
-        default: FEEL
+        default: ""
+      resultKey:
+        title: resultKey
+        description: can be blank
+        type: string
+        default: kdtable
   dependencies:
   - "camel:core"
   - "camel:kamelet"
@@ -32,6 +37,7 @@ spec:
         properties:
           kdtable: '{{kdtable}}'
           expressionLang: '{{expressionLang}}'
+          resultKey: '{{resultKey}}'
     from:
       uri: "kamelet:source"
       steps:

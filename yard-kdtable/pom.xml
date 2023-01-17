@@ -58,6 +58,21 @@ This version supports Java 11. -->
       <artifactId>yard-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.kie.yard</groupId>
+      <artifactId>yard-impl1</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-dmn-core-jsr223</artifactId>
+        <version>${version.org.drools}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-dmn-core-jsr223-jq</artifactId>
+        <version>${version.org.drools}</version>
+    </dependency>
     
     <!-- logging -->
     <dependency>

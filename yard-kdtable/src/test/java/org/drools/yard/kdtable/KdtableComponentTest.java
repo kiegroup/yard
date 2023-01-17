@@ -24,7 +24,7 @@ public class KdtableComponentTest extends CamelTestSupport {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMinimumMessageCount(1);
 
-        template.sendBody("direct:start", "Hello World");
+        template.sendBody("direct:start", "{ \"Age\": 19, \"Previous incidents?\": true }");
 
         mock.await();
     }

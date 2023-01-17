@@ -22,9 +22,8 @@
       period: "5000"
     steps:
       - setBody:
-          constant: "Hello Camel K from yaml"
+          constant: |
+            { "Age": 19, "Previous incidents?": true }
       - process:
           ref: 'mmbean'
-      - transform:
-          simple: "${body.toUpperCase()}"
       - to: "log:info"

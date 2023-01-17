@@ -62,4 +62,12 @@ public class YaRD {
     public List<Element> getElements() {
         return elements;
     }
+
+    public void setInputs(List<Input> inputs) {
+        this.inputs = inputs;
+    }
+
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
+    }    
 }

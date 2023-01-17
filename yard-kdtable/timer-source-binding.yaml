@@ -9,7 +9,8 @@ spec:
       apiVersion: camel.apache.org/v1alpha1
       name: timer-source
     properties:
-      message: hello world
+      message: |
+        { "Age": 19, "Previous incidents?": true }
       period: 5000
   steps:
     - ref:
