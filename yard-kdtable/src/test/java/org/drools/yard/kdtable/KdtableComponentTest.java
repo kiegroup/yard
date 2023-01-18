@@ -22,11 +22,13 @@ public class KdtableComponentTest extends CamelTestSupport {
     @Test
     public void test() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMinimumMessageCount(1);
+        mock.expectedMessageCount(1);
+        mock.expectedBodyReceived().body().contains("\"kdtable\": 1000");
 
         template.sendBody("direct:start", "{ \"Age\": 19, \"Previous incidents?\": true }");
 
         mock.await();
+        mock.assertIsSatisfied();
     }
 
     @Override
@@ -39,6 +41,7 @@ public class KdtableComponentTest extends CamelTestSupport {
             public void configure() {
                 from("direct:start")
                   .bean("mmbean")
+                  .to("log:info")
                   .to("mock:result");
             }
         };
