@@ -1,0 +1,12 @@
+# camel-k: language=yaml dependency=github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT
+
+- from:
+    uri: "timer:yaml"
+    parameters:
+      period: "5000"
+    steps:
+      - setBody:
+          constant: |
+            { "Age": 19, "Previous incidents?": true }
+      - to: "kamelet:kdtable?kdtable=#property:kdtable"
+      - to: "log:info"

@@ -140,6 +140,10 @@ public class KdtableProcessor extends ServiceSupport implements Processor  {
         return kdtable;
     }
 
+    public void setKdtable(String kdtable) {
+        this.setKdtable((Object) kdtable); // please local camel jbang avoid `Could not find a suitable setter for property: kdtable as there isn't a setter method with same type: java.lang.String nor type conversion possible`
+    }
+
     public void setKdtable(Object kdtable) {
         this.kdtable = kdtable;
         if (!(kdtable instanceof String)) {
