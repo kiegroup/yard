@@ -20,7 +20,6 @@ spec:
         title: expressionLang
         description: can be blank
         type: string
-        default: "null" # unable to use `null` in this kamelet definition, todo raise to camel-k team? 
       resultKey:
         title: resultKey
         description: can be blank
@@ -36,7 +35,7 @@ spec:
         type: '#class:org.drools.yard.kdtable.KdtableProcessor'
         properties:
           kdtable: '{{kdtable}}'
-          expressionLang: '{{expressionLang}}'
+          expressionLang: '{{?expressionLang}}'
           resultKey: '{{resultKey}}'
     from:
       uri: "kamelet:source"
