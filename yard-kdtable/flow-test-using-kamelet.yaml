@@ -8,5 +8,8 @@
       - setBody:
           constant: |
             { "Age": 19, "Previous incidents?": true }
-      - to: "kamelet:kdtable?kdtable=#property:kdtable"
+      - to:
+          uri: "kamelet:kdtable"
+          parameters:
+            kdtable: type%3A%20DecisionTable%0Ainputs%3A%20%5B%27Age%27%2C%20%27Previous%20incidents%3F%27%5D%0Arules%3A%0A-%20when%3A%20%5B%27%3C21%27%2C%20false%5D%0A%20%20then%3A%20800%0A-%20when%3A%20%5B%27%3C21%27%2C%20true%5D%0A%20%20then%3A%201000%0A-%20when%3A%20%5B%27%3E%3D21%27%2C%20false%5D%0A%20%20then%3A%20500%0A-%20when%3A%20%5B%27%3E%3D21%27%2C%20true%5D%0A%20%20then%3A%20600
       - to: "log:info"

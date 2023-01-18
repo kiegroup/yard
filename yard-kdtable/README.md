@@ -8,9 +8,11 @@
 camel run --deps=org.kie.yard:yard-kdtable:1.0-SNAPSHOT flow-test.yaml 
 ```
 
-takes from application.properties.
+or
 
-
+```sh
+camel run --local-kamelet-dir=src/main/resources/kamelets --deps=org.kie.yard:yard-kdtable:1.0-SNAPSHOT flow-test-using-kamelet.yaml 
+```
 
 ## Prepare Minikube kamel
 
