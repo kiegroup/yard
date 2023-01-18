@@ -50,9 +50,11 @@ public class KdtableProcessor extends ServiceSupport implements Processor  {
     private DecisionTable dt;
     private DMNRuntime dmnRuntime;
 
+    // potentially use this class fields as constructor parameters, then invoke this method directly from constructor
+    // then, on camel-k, need to use syntax as from this jira: https://issues.apache.org/jira/browse/CAMEL-18737
     @Override
     protected void doInit() throws Exception {
-        LOG.debug("doBuild()");
+        LOG.debug("doInit()");
         LOG.debug("this processor/bean field 'kdtable' was set to: {}", kdtable);
         LOG.debug("this processor/bean field 'kdtable' class is: {}", kdtable.getClass());
         LOG.debug("the deserialized DT, rules in total are: {}", dt.getRules().size());
