@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.camel.support.service.ServiceSupport;
 import org.drools.io.ReaderResource;
 import org.kie.dmn.api.core.DMNContext;
 import org.kie.dmn.api.core.DMNResult;
@@ -34,10 +35,14 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 
-public class KdtableProcessor implements Processor {
+public class KdtableProcessor extends ServiceSupport implements Processor  {
     private static final Logger LOG = LoggerFactory.getLogger(KdtableProcessor.class);
+    private static final ObjectMapper jsonMapper = new ObjectMapper();
+    private static final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory().disable(Feature.USE_NATIVE_TYPE_ID));
+    static {
+        yamlMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
 
-    private final ObjectMapper jsonMapper = new ObjectMapper();
     private Object kdtable;
     private String expressionLang;
     private String resultKey = "kdtable";
@@ -46,57 +51,11 @@ public class KdtableProcessor implements Processor {
     private DMNRuntime dmnRuntime;
 
     @Override
-    public void process(Exchange exchange) throws Exception {
+    protected void doInit() throws Exception {
+        LOG.debug("doBuild()");
         LOG.debug("this processor/bean field 'kdtable' was set to: {}", kdtable);
         LOG.debug("this processor/bean field 'kdtable' class is: {}", kdtable.getClass());
         LOG.debug("the deserialized DT, rules in total are: {}", dt.getRules().size());
-
-        Object body = exchange.getIn().getBody();
-        Map<String, Object> inContext = null;
-        if (body instanceof String) {
-            inContext = jsonMapper.readValue((String) body, new TypeReference<Map<String, Object>>(){});
-        } else if (body instanceof ObjectNode) {
-            inContext = jsonMapper.convertValue(body, new TypeReference<Map<String, Object>>(){});
-        } else {
-            throw new IllegalArgumentException("Exchange body not a String representing a JSON, or not ObjectNode either.");
-        }
-        LOG.debug("inContext: {}", inContext);
-
-        DMNContext dmnContext = new DynamicDMNContextBuilder(dmnRuntime.newContext(), dmnRuntime.getModels().get(0))
-                .populateContextWith(inContext);
-        DMNResult dmnResult = dmnRuntime.evaluateAll(dmnRuntime.getModels().get(0), dmnContext);
-        if (dmnResult.getDecisionResults().size() != 1) {
-            throw new IllegalStateException("was expecting == 1 decisionResults.");
-        }
-        Object serialized = MarshallingStubUtils.stubDMNResult(dmnResult.getContext().getAll(), Object::toString);
-        final String OUTPUT_JSON = jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(serialized);
-        LOG.debug("OUTPUT_JSON: {}", OUTPUT_JSON);
-
-        if (body instanceof ObjectNode) {
-            JsonNode resultAsJsonNode = jsonMapper.readTree(OUTPUT_JSON);
-            exchange.getIn().setBody(resultAsJsonNode);
-        } else {
-            exchange.getIn().setBody(OUTPUT_JSON);
-        }
-    }
-
-    public Object getKdtable() {
-        return kdtable;
-    }
-
-    // TODO there might be a "concurrency" issue here as some of the properties might not have yet been valorized.
-    public void setKdtable(Object kdtable) {
-        this.kdtable = kdtable;
-        if (!(kdtable instanceof String)) {
-            throw new IllegalArgumentException();
-        }
-        final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory().disable(Feature.USE_NATIVE_TYPE_ID));
-        yamlMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        try {
-            dt = yamlMapper.readValue((String) kdtable, DecisionTable.class);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
         YaRD yard = new YaRD();
         yard.setSpecVersion("alpha");
         yard.setKind("YaRD");
@@ -142,6 +101,53 @@ public class KdtableProcessor implements Processor {
             .buildConfiguration()
             .fromResources(Arrays.asList(new ReaderResource(new StringReader(xml))))
             .getOrElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public void process(Exchange exchange) throws Exception {
+        Object body = exchange.getIn().getBody();
+        Map<String, Object> inContext = null;
+        if (body instanceof String) {
+            inContext = jsonMapper.readValue((String) body, new TypeReference<Map<String, Object>>(){});
+        } else if (body instanceof ObjectNode) {
+            inContext = jsonMapper.convertValue(body, new TypeReference<Map<String, Object>>(){});
+        } else {
+            throw new IllegalArgumentException("Exchange body not a String representing a JSON, or not ObjectNode either.");
+        }
+        LOG.debug("inContext: {}", inContext);
+
+        DMNContext dmnContext = new DynamicDMNContextBuilder(dmnRuntime.newContext(), dmnRuntime.getModels().get(0))
+                .populateContextWith(inContext);
+        DMNResult dmnResult = dmnRuntime.evaluateAll(dmnRuntime.getModels().get(0), dmnContext);
+        if (dmnResult.getDecisionResults().size() != 1) {
+            throw new IllegalStateException("was expecting == 1 decisionResults.");
+        }
+        Object serialized = MarshallingStubUtils.stubDMNResult(dmnResult.getContext().getAll(), Object::toString);
+        final String OUTPUT_JSON = jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(serialized);
+        LOG.debug("OUTPUT_JSON: {}", OUTPUT_JSON);
+
+        if (body instanceof ObjectNode) {
+            JsonNode resultAsJsonNode = jsonMapper.readTree(OUTPUT_JSON);
+            exchange.getIn().setBody(resultAsJsonNode);
+        } else {
+            exchange.getIn().setBody(OUTPUT_JSON);
+        }
+    }
+
+    public Object getKdtable() {
+        return kdtable;
+    }
+
+    public void setKdtable(Object kdtable) {
+        this.kdtable = kdtable;
+        if (!(kdtable instanceof String)) {
+            throw new IllegalArgumentException("kdtable must be supplied as a String representing the YAML portion of the decision table.");
+        }
+        try {
+            dt = yamlMapper.readValue((String) kdtable, DecisionTable.class);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public String getExpressionLang() {
