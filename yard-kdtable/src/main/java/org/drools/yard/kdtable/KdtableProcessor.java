@@ -47,9 +47,9 @@ public class KdtableProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        LOG.info("this processor/bean field 'kdtable' was set to: {}", kdtable);
-        LOG.info("this processor/bean field 'kdtable' class is: {}", kdtable.getClass());
-        LOG.info("the deserialized DT, rules in total are: {}", dt.getRules().size());
+        LOG.debug("this processor/bean field 'kdtable' was set to: {}", kdtable);
+        LOG.debug("this processor/bean field 'kdtable' class is: {}", kdtable.getClass());
+        LOG.debug("the deserialized DT, rules in total are: {}", dt.getRules().size());
 
         Object body = exchange.getIn().getBody();
         Map<String, Object> inContext = null;
@@ -60,7 +60,7 @@ public class KdtableProcessor implements Processor {
         } else {
             throw new IllegalArgumentException("Exchange body not a String representing a JSON, or not ObjectNode either.");
         }
-        LOG.info("inContext: {}", inContext);
+        LOG.debug("inContext: {}", inContext);
 
         DMNContext dmnContext = new DynamicDMNContextBuilder(dmnRuntime.newContext(), dmnRuntime.getModels().get(0))
                 .populateContextWith(inContext);
@@ -70,7 +70,7 @@ public class KdtableProcessor implements Processor {
         }
         Object serialized = MarshallingStubUtils.stubDMNResult(dmnResult.getContext().getAll(), Object::toString);
         final String OUTPUT_JSON = jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(serialized);
-        LOG.info("OUTPUT_JSON: {}", OUTPUT_JSON);
+        LOG.debug("OUTPUT_JSON: {}", OUTPUT_JSON);
 
         if (body instanceof ObjectNode) {
             JsonNode resultAsJsonNode = jsonMapper.readTree(OUTPUT_JSON);
@@ -84,6 +84,7 @@ public class KdtableProcessor implements Processor {
         return kdtable;
     }
 
+    // TODO there might be a "concurrency" issue here as some of the properties might not have yet been valorized.
     public void setKdtable(Object kdtable) {
         this.kdtable = kdtable;
         if (!(kdtable instanceof String)) {
@@ -120,7 +121,7 @@ public class KdtableProcessor implements Processor {
         String yardYaml;
         try {
             yardYaml = yamlMapper.writeValueAsString(yard);
-            LOG.info("generated YaRD yaml:\n{}", yardYaml);
+            LOG.debug("generated YaRD yaml:\n{}", yardYaml);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);
         }
