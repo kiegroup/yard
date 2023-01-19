@@ -1,0 +1,210 @@
+apiVersion: camel.apache.org/v1
+kind: Integration
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"camel.apache.org/v1alpha1","kind":"KameletBinding","metadata":{"annotations":{},"name":"timer-source-binding","namespace":"default"},"spec":{"sink":{"ref":{"apiVersion":"camel.apache.org/v1alpha1","kind":"Kamelet","name":"log-sink"}},"source":{"properties":{"message":"{
+      \"Age\": 19, \"Previous incidents?\": true
+      }\n","period":5000},"ref":{"apiVersion":"camel.apache.org/v1alpha1","kind":"Kamelet","name":"timer-source"}},"steps":[{"properties":{"kdtable":"type:
+      DecisionTable\ninputs: ['Age', 'Previous incidents?']\nrules:\n- when:
+      ['\u003c21', false]\n  then: 800\n- when: ['\u003c21', true]\n  then:
+      1000\n- when: ['\u003e=21', false]\n  then: 500\n- when: ['\u003e=21',
+      true]\n  then:
+      600\n"},"ref":{"apiVersion":"camel.apache.org/v1alpha1","kind":"Kamelet","name":"kdtable"}}]}}
+  creationTimestamp: '2023-01-18T15:18:27Z'
+  generation: 1
+  labels:
+    camel.apache.org/created.by.kind: KameletBinding
+    camel.apache.org/created.by.name: timer-source-binding
+  managedFields:
+    - apiVersion: camel.apache.org/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:kubectl.kubernetes.io/last-applied-configuration: {}
+          f:labels:
+            .: {}
+            f:camel.apache.org/created.by.kind: {}
+            f:camel.apache.org/created.by.name: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"a4d7b5af-e496-4304-9824-7353d53d2040"}: {}
+        f:spec:
+          .: {}
+          f:configuration: {}
+          f:flows: {}
+          f:profile: {}
+          f:traits: {}
+      manager: kamel
+      operation: Update
+      time: '2023-01-18T15:18:27Z'
+    - apiVersion: camel.apache.org/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:conditions: {}
+          f:dependencies: {}
+          f:digest: {}
+          f:generatedSources: {}
+          f:image: {}
+          f:integrationKit:
+            .: {}
+            f:name: {}
+            f:namespace: {}
+          f:lastInitTimestamp: {}
+          f:observedGeneration: {}
+          f:phase: {}
+          f:platform: {}
+          f:profile: {}
+          f:replicas: {}
+          f:runtimeProvider: {}
+          f:runtimeVersion: {}
+          f:selector: {}
+          f:version: {}
+      manager: kamel
+      operation: Update
+      subresource: status
+      time: '2023-01-18T15:18:29Z'
+  name: timer-source-binding
+  namespace: default
+  ownerReferences:
+    - apiVersion: camel.apache.org/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: KameletBinding
+      name: timer-source-binding
+      uid: a4d7b5af-e496-4304-9824-7353d53d2040
+  resourceVersion: '26949'
+  uid: 8a1cec53-a003-440e-b354-ca9d3533f15f
+spec:
+  configuration:
+    - type: property
+      value: >-
+        camel.kamelet.kdtable.action-0.kdtable = type: DecisionTable\ninputs:
+        ['Age', 'Previous incidents?']\nrules:\n- when: ['<21', false]\n  then:
+        800\n- when: ['<21', true]\n  then: 1000\n- when: ['>=21', false]\n 
+        then: 500\n- when: ['>=21', true]\n  then: 600\n
+    - type: property
+      value: >-
+        camel.kamelet.timer-source.source.message = { "Age": 19, "Previous
+        incidents?": true }\n
+    - type: property
+      value: camel.kamelet.timer-source.source.period = 5000
+  flows:
+    - route:
+        from:
+          steps:
+            - kamelet:
+                name: kdtable/action-0
+            - to: kamelet:log-sink/sink
+          uri: kamelet:timer-source/source
+        id: binding
+  profile: Kubernetes
+  traits: {}
+status:
+  conditions:
+    - firstTruthyTime: '2023-01-18T15:18:27Z'
+      lastTransitionTime: '2023-01-18T15:18:27Z'
+      lastUpdateTime: '2023-01-18T15:18:27Z'
+      message: default/camel-k
+      reason: IntegrationPlatformAvailable
+      status: 'True'
+      type: IntegrationPlatformAvailable
+    - firstTruthyTime: '2023-01-18T15:18:27Z'
+      lastTransitionTime: '2023-01-18T15:18:27Z'
+      lastUpdateTime: '2023-01-18T15:18:27Z'
+      message: >-
+        kamelets [kdtable,log-sink,timer-source] found in repositories:
+        (Kubernetes[namespace=default], Empty[])
+      reason: KameletsAvailable
+      status: 'True'
+      type: KameletsAvailable
+    - firstTruthyTime: '2023-01-18T15:18:27Z'
+      lastTransitionTime: '2023-01-18T15:18:27Z'
+      lastUpdateTime: '2023-01-18T15:18:27Z'
+      message: kit-cf3terld1odc73bq0pl0
+      reason: IntegrationKitAvailable
+      status: 'True'
+      type: IntegrationKitAvailable
+    - lastTransitionTime: '2023-01-18T15:18:27Z'
+      lastUpdateTime: '2023-01-18T15:18:27Z'
+      message: different controller strategy used (deployment)
+      reason: CronJobNotAvailableReason
+      status: 'False'
+      type: CronJobAvailable
+    - firstTruthyTime: '2023-01-18T15:18:27Z'
+      lastTransitionTime: '2023-01-18T15:18:27Z'
+      lastUpdateTime: '2023-01-18T15:18:27Z'
+      message: deployment name is timer-source-binding
+      reason: DeploymentAvailable
+      status: 'True'
+      type: DeploymentAvailable
+    - lastTransitionTime: '2023-01-18T15:18:27Z'
+      lastUpdateTime: '2023-01-18T15:18:27Z'
+      message: no http service required
+      reason: ServiceNotAvailable
+      status: 'False'
+      type: ServiceAvailable
+    - lastTransitionTime: '2023-01-18T15:18:27Z'
+      lastUpdateTime: '2023-01-18T15:18:27Z'
+      message: no service defined
+      reason: IngressNotAvailable
+      status: 'False'
+      type: ExposureAvailable
+    - firstTruthyTime: '2023-01-18T15:18:29Z'
+      lastTransitionTime: '2023-01-18T15:18:29Z'
+      lastUpdateTime: '2023-01-18T15:18:29Z'
+      message: 1/1 ready replicas
+      reason: DeploymentReady
+      status: 'True'
+      type: Ready
+  dependencies:
+    - camel:core
+    - camel:kamelet
+    - camel:log
+    - camel:timer
+    - github:kiegroup.yard/yard-kdtable/camelk-SNAPSHOT
+    - mvn:org.apache.camel.k:camel-k-runtime
+    - mvn:org.apache.camel.quarkus:camel-quarkus-yaml-dsl
+  digest: vnPkXAz0LXtXfr5gtulR32qTefljNaHhBUSS65_BxkpA
+  generatedSources:
+    - content: |
+        - route:
+            from:
+              steps:
+              - kamelet:
+                  name: kdtable/action-0
+              - to: kamelet:log-sink/sink
+              uri: kamelet:timer-source/source
+            id: binding
+      name: camel-k-embedded-flow.yaml
+    - contentKey: content
+      contentRef: timer-source-binding-kamelet-kdtable-template
+      language: yaml
+      name: kdtable.yaml
+    - contentKey: content
+      contentRef: timer-source-binding-kamelet-log-sink-template
+      language: yaml
+      name: log-sink.yaml
+    - contentKey: content
+      contentRef: timer-source-binding-kamelet-timer-source-template
+      language: yaml
+      name: timer-source.yaml
+  image: >-
+    10.106.165.39/default/camel-k-kit-cf3terld1odc73bq0pl0@sha256:9b590af5d78e979588a5c4009003919f92129f4676ced1604d606f107c6c35f7
+  integrationKit:
+    name: kit-cf3terld1odc73bq0pl0
+    namespace: default
+  lastInitTimestamp: '2023-01-18T15:18:27Z'
+  observedGeneration: 1
+  phase: Running
+  platform: camel-k
+  profile: Kubernetes
+  replicas: 1
+  runtimeProvider: quarkus
+  runtimeVersion: 1.16.0
+  selector: camel.apache.org/integration=timer-source-binding
+  version: 1.11.0
