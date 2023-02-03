@@ -1,0 +1,24 @@
+name: Build with Maven
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v3.6.0
+        with:
+          java-version: 17
+          distribution: temurin
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B clean install --file pom.xml

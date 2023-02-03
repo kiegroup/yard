@@ -131,6 +131,7 @@
     <module>yard-impl1-cli</module>
     <module>yard-impl1-jitexecutor</module>
     <module>yard-impl1-operator</module>
+    <module>yard-impl2</module>
   </modules>
 
 </project>

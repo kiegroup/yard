@@ -10,7 +10,9 @@
     <artifactId>yard-impl2</artifactId>
 
     <properties>
-        <maven.compiler.release>11</maven.compiler.release> <!-- this artifact no special feature, make it most consumable -->
+        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.source>${maven.compiler.release}</maven.compiler.source> <!-- redundant, but required as pom-parent chain is up to jboss-parent -->
+        <maven.compiler.target>${maven.compiler.release}</maven.compiler.target>
         <java.module.name>org.kie.yard.impl2</java.module.name>
     </properties>
 
@@ -23,6 +25,11 @@
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-engine</artifactId>
+            <version>${version.org.drools}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-ruleunits-dsl</artifactId>
             <version>${version.org.drools}</version>
         </dependency>
         <dependency>
@@ -49,5 +56,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>
