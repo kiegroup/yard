@@ -11,8 +11,6 @@ import org.drools.ruleunits.api.DataSource;
 import org.drools.ruleunits.api.SingletonStore;
 import org.drools.ruleunits.dsl.SyntheticRuleUnit;
 import org.drools.ruleunits.dsl.SyntheticRuleUnitBuilder;
-import org.drools.ruleunits.dsl.patterns.Pattern1Def;
-import org.drools.ruleunits.dsl.patterns.Pattern2Def;
 import org.kie.yard.api.model.DecisionLogic;
 import org.kie.yard.api.model.DecisionTable.InlineRule;
 import org.kie.yard.api.model.DecisionTable.Rule;
@@ -84,25 +82,11 @@ public class YaRDParser {
         definitions.outs().put(nameString, result);
         var sru = unit.defineRules(rulesFactory -> {
             for (Rule rule : rules) {
-                RuleCell r0 = parseGenericRuleCell(rule, 0);
-                LOG.debug("r0 {} {}", r0.idxtype, r0.value);
-                Pattern1Def<Object> building1 = rulesFactory.rule()
-                    .on(definitions.ins().get(inputs.get(0)))
-                    .filter(r0.idxtype, r0.value);
-                if (inputs.size() > 1) { // TODO this current approach is not really scalable, will be reviewed.
-                    RuleCell r1 = parseGenericRuleCell(rule, 1);
-                    LOG.debug("r1 {} {}", r1.idxtype, r1.value);
-                    Pattern2Def<Object, Object> building2 = building1.join(rr -> rr
-                        .on(definitions.ins().get(inputs.get(1)))
-                        .filter(r1.idxtype, r1.value)
-                    );
-                    if (inputs.size() > 2) {
-                        throw new UnsupportedOperationException("unhandled DT with more than 2 columns");
-                    } else {
-                        building2.execute(result, (r, c1, c2) -> { r.set( parseGenericRuleThen(rule).value ); }); // TODO this does not need the join, maybe is the easiest for a generic DSL option.
-                    }
-                } else {
-                    building1.execute(result, (r, c1) -> { r.set( parseGenericRuleThen(rule).value ); });
+                var ruleFactory = rulesFactory.rule(); // must be called before iterating on all alpha-constraints for EACH rule; see https://github.com/kiegroup/drools/pull/4999 
+                for (int idx = 0; idx < inputs.size(); idx++) {
+                    RuleCell cIdx = parseGenericRuleCell(rule, idx);
+                    ruleFactory.on(definitions.ins().get(inputs.get(idx))).filter(cIdx.idxtype, cIdx.value);
+                    ruleFactory.execute(result, r -> r.set( parseGenericRuleThen(rule).value ));
                 }
             }
         });
