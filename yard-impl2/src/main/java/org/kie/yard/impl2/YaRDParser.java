@@ -73,7 +73,7 @@ public class YaRDParser {
         if (!(logic.getHitPolicy() == null || logic.getHitPolicy().equals("ANY"))) {
             throw new UnsupportedOperationException("Not implemented in impl2 / TODO");
         }
-        SyntheticRuleUnitBuilder unit = SyntheticRuleUnitBuilder.build(nameString);
+        SyntheticRuleUnitBuilder unit = SyntheticRuleUnitBuilder.build(nameString); // TODO ensure unique key
         for (Entry<String, SingletonStore<Object>> e : definitions.ins().entrySet()) {
             unit.registerDataSource(e.getKey(), e.getValue(), Object.class);
         }
