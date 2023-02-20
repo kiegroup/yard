@@ -74,7 +74,7 @@
                             <includePluginDependencies>true</includePluginDependencies>
                             <mainClass>org.kie.yard.api.boostrap.generator.Generator</mainClass>
                             <arguments>
-                                <argument>${project.basedir}</argument>>
+                                <argument>${project.basedir}</argument>
                             </arguments>
                         </configuration>
                     </execution>
