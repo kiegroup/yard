@@ -23,7 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
-public class AbstractDMNYamlTest {
+public abstract class AbstractDMNYamlTest {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(InsuranceBasePriceTest.class);
