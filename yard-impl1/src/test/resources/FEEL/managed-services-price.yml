@@ -10,7 +10,6 @@ inputs:
 elements:
 - name: 'Price for the Month'
   type: Decision
-  requirements: ['Customer Plan', 'Requests'] # we could think of having by default all input nodes wired in all decision nodes, unless specified..
   logic: 
     type: DecisionTable
     inputs: ['Customer Plan', 'Requests']
