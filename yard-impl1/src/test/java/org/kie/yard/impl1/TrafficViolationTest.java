@@ -11,8 +11,8 @@ public class TrafficViolationTest extends AbstractDMNYamlTest {
     
     @Test
     public void testExecution() throws Exception {
-		DMNRuntime dmnRuntime = createDMNRuntimeFromYamlFile("/FEEL/traffic-violation.yml");
-		Map<String, Object> inputData = parseInputDataFromJson("{\"Driver\": {\n" +
+        DMNRuntime dmnRuntime = createDMNRuntimeFromYamlFile("/FEEL/traffic-violation.yml");
+        Map<String, Object> inputData = parseInputDataFromJson("{\"Driver\": {\n" +
                 "    \"Points\": 15\n" +
                 "},\n" +
                 "\"Violation\": {\n" +
@@ -28,8 +28,8 @@ public class TrafficViolationTest extends AbstractDMNYamlTest {
 
     @Test
     public void testExecutionJQ2() throws Exception {
-		DMNRuntime dmnRuntime = createDMNRuntimeFromYamlFile("/jq/traffic-violation.yml");
-		Map<String, Object> inputData = parseInputDataFromJson("{\"Driver\": {\n" +
+        DMNRuntime dmnRuntime = createDMNRuntimeFromYamlFile("/jq/traffic-violation.yml");
+        Map<String, Object> inputData = parseInputDataFromJson("{\"Driver\": {\n" +
                 "    \"Points\": 15\n" +
                 "},\n" +
                 "\"Violation\": {\n" +
