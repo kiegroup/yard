@@ -1,0 +1,25 @@
+specVersion: alpha
+kind: YaRD
+name: 'BasePrice'
+# expressionLang: FEEL
+inputs:
+- name: 'Customer Plan'
+  type: string
+- name: 'Requests'
+  type: 'http://myapi.org/jsonSchema.json#Requests'
+elements:
+- name: 'Price for the Month'
+  type: Decision
+  logic: 
+    type: DecisionTable
+    inputs: ['Customer Plan', 'Requests']
+    rules:
+    - when: ['="Free"', '<1000']
+      then: 500
+    - when: ['="Free"', '>=1000']
+      then: 1000 + 1* Requests 
+    - when: ['="Premium"', '<10000']
+      then: 4000
+    - when: ['="Premium"', '>=10000']
+      then: 4000 + 0.5 * Requests
+---
