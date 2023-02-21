@@ -12,8 +12,8 @@ public class InsuranceBasePriceTest extends AbstractDMNYamlTest {
 
     @Test
     public void testExecution() throws Exception {
-		Map<String, Object> inputData = parseInputDataFromJson("{\"Age\": 47, \"Previous incidents?\": false}");
-		DMNRuntime dmnRuntime = createDMNRuntimeFromYamlFile("/FEEL/insurance-base-price.yml");
+        Map<String, Object> inputData = parseInputDataFromJson("{\"Age\": 47, \"Previous incidents?\": false}");
+        DMNRuntime dmnRuntime = createDMNRuntimeFromYamlFile("/FEEL/insurance-base-price.yml");
 
         Map<String, Object> outputJSONasMap  = performEvaluation(dmnRuntime, inputData);
         
@@ -22,7 +22,7 @@ public class InsuranceBasePriceTest extends AbstractDMNYamlTest {
 
     @Test
     public void testExecutionJQ() throws Exception {
-		Map<String, Object> inputData = parseInputDataFromJson("{\"Age\": 47, \"Previous incidents?\": false}");
+        Map<String, Object> inputData = parseInputDataFromJson("{\"Age\": 47, \"Previous incidents?\": false}");
         DMNRuntime dmnRuntime = createDMNRuntimeFromYamlFile("/jq/insurance-base-price.yml");
         
         Map<String, Object> outputJSONasMap  = performEvaluation(dmnRuntime, inputData);
