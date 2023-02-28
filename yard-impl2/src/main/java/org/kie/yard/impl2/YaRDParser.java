@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.drools.model.Index;
 import org.drools.ruleunits.api.DataSource;
 import org.drools.ruleunits.api.SingletonStore;
-import org.drools.ruleunits.dsl.SyntheticRuleUnit;
 import org.drools.ruleunits.dsl.SyntheticRuleUnitBuilder;
 import org.kie.yard.api.model.DecisionLogic;
 import org.kie.yard.api.model.DecisionTable.InlineRule;
@@ -17,6 +15,7 @@ import org.kie.yard.api.model.DecisionTable.Rule;
 import org.kie.yard.api.model.DecisionTable.WhenThenRule;
 import org.kie.yard.api.model.Element;
 import org.kie.yard.api.model.Input;
+import org.kie.yard.api.model.LiteralExpression;
 import org.kie.yard.api.model.YaRD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,14 +28,14 @@ public class YaRDParser {
 
     private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
     private final ObjectMapper jsonMapper = new ObjectMapper();
-    private final YaRDRuleUnits definitions = new YaRDRuleUnits(new HashMap<>(), new ArrayList<>(), new HashMap<>());
+    private final YaRDDefinitions definitions = new YaRDDefinitions(new HashMap<>(), new ArrayList<>(), new HashMap<>());
 
     public YaRDParser() {
         yamlMapper.findAndRegisterModules();
         jsonMapper.findAndRegisterModules();
     }
 
-    public YaRDRuleUnits parse(String yaml) throws Exception {
+    public YaRDDefinitions parse(String yaml) throws Exception {
         YaRD sd = yamlMapper.readValue(yaml, YaRD.class);
         if (!sd.getExpressionLang().equals("Drools")) {
             throw new IllegalArgumentException("impl2 does support only `Drools` as expression language");
@@ -49,22 +48,29 @@ public class YaRDParser {
     private void appendUnits(List<Element> list) {
         for ( Element hi : list) {
             String nameString = (String) hi.getName();
-            SyntheticRuleUnit decisionLogic = createDecisionLogic(nameString, hi.getLogic());
+            LOG.debug("parsing {}", nameString);
+            Firable decisionLogic = createDecisionLogic(nameString, hi.getLogic());
             definitions.units().add(decisionLogic);
         }
     }
 
-    private SyntheticRuleUnit createDecisionLogic(String nameString, DecisionLogic decisionLogic) {
+    private Firable createDecisionLogic(String nameString, DecisionLogic decisionLogic) {
         if (decisionLogic instanceof org.kie.yard.api.model.DecisionTable) {
             return createDecisionTable(nameString, (org.kie.yard.api.model.DecisionTable) decisionLogic);
         } else if (decisionLogic instanceof org.kie.yard.api.model.LiteralExpression) {
-            throw new UnsupportedOperationException("Not implemented in impl2 / TODO");
+            return createLiteralExpression(nameString, (org.kie.yard.api.model.LiteralExpression) decisionLogic);
         } else {
             throw new UnsupportedOperationException("Not implemented in impl2 / TODO");
         }
     }
 
-    private SyntheticRuleUnit createDecisionTable(String nameString, org.kie.yard.api.model.DecisionTable logic) {
+    private Firable createLiteralExpression(String nameString, LiteralExpression decisionLogic) {
+        String expr = decisionLogic.getExpression();
+        definitions.outs().put(nameString, StoreHandle.empty(Object.class));
+        return new LiteralExpressionInterpreter(nameString, QuotedExprParsed.from(expr));
+    }
+
+    private Firable createDecisionTable(String nameString, org.kie.yard.api.model.DecisionTable logic) {
         List<String> inputs = logic.getInputs();
         if (inputs.isEmpty()) {
             throw new IllegalStateException("empty decision table?");
@@ -73,11 +79,13 @@ public class YaRDParser {
         if (!(logic.getHitPolicy() == null || logic.getHitPolicy().equals("ANY"))) {
             throw new UnsupportedOperationException("Not implemented in impl2 / TODO");
         }
+        // TODO looks to me SyntheticRuleUnit not fully thread safe as it's leaking outside the registerDataSource
         SyntheticRuleUnitBuilder unit = SyntheticRuleUnitBuilder.build(nameString); // TODO ensure unique key
         for (Entry<String, SingletonStore<Object>> e : definitions.ins().entrySet()) {
             unit.registerDataSource(e.getKey(), e.getValue(), Object.class);
         }
-        AtomicReference<Object> result = new AtomicReference<Object>();
+        // TODO wire-up the outs from previous RUs.
+        StoreHandle<Object> result = StoreHandle.empty(Object.class);
         unit.registerGlobal(nameString, result);
         definitions.outs().put(nameString, result);
         var sru = unit.defineRules(rulesFactory -> {
@@ -90,7 +98,7 @@ public class YaRDParser {
                 }
             }
         });
-        return sru;
+        return new SyntheticRuleUnitWrapper(sru);
     }
 
     private RuleCell parseGenericRuleThen(Rule r) {
