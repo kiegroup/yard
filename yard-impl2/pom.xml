@@ -14,6 +14,7 @@
         <maven.compiler.source>${maven.compiler.release}</maven.compiler.source> <!-- redundant, but required as pom-parent chain is up to jboss-parent -->
         <maven.compiler.target>${maven.compiler.release}</maven.compiler.target>
         <java.module.name>org.kie.yard.impl2</java.module.name>
+        <version.ch.obermuhlner.jshell-scriptengine>1.1.0</version.ch.obermuhlner.jshell-scriptengine>
     </properties>
 
     <dependencies>
@@ -36,6 +37,11 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${version.jackson}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.obermuhlner</groupId>
+            <artifactId>jshell-scriptengine</artifactId>
+            <version>${version.ch.obermuhlner.jshell-scriptengine}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

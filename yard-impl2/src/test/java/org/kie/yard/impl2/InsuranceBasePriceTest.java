@@ -33,6 +33,7 @@ public class InsuranceBasePriceTest {
             """;
         Map<String, Object> outputJSONasMap = evaluate(CTX);
         assertThat(outputJSONasMap).hasFieldOrPropertyWithValue("Base price", 500);
+        assertThat(outputJSONasMap).hasFieldOrPropertyWithValue("Downpayment", 50.0);
     }
 
     @Test
@@ -45,6 +46,7 @@ public class InsuranceBasePriceTest {
             """;
         Map<String, Object> outputJSONasMap = evaluate(CTX);
         assertThat(outputJSONasMap).hasFieldOrPropertyWithValue("Base price", 1000);
+        assertThat(outputJSONasMap).hasFieldOrPropertyWithValue("Downpayment", 70.0);
     }
 
     private Map<String, Object> evaluate(String jsonInputCxt) throws Exception {
@@ -52,7 +54,7 @@ public class InsuranceBasePriceTest {
         LOG.info("INPUT:\n{}", jsonInputCxt);
 
         YaRDParser parser = new YaRDParser();
-        YaRDRuleUnits units = parser.parse(yamlDecision);
+        YaRDDefinitions units = parser.parse(yamlDecision);
 
         Map<String, Object> inputContext = readJSON(jsonInputCxt);
         
