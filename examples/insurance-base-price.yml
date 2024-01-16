@@ -23,4 +23,3 @@ elements:
       then: 500
     - when: ['>=21', true]
       then: 600
----

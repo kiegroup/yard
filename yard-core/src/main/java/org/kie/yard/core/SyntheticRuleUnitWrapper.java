@@ -16,20 +16,25 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.kie.yard.api.model;
+package org.kie.yard.core;
 
-import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+import java.util.Map;
 
-@YAMLMapper
-public class LiteralExpression implements DecisionLogic {
+import org.drools.ruleunits.api.RuleUnitInstance;
+import org.drools.ruleunits.api.RuleUnitProvider;
+import org.drools.ruleunits.dsl.SyntheticRuleUnit;
 
-    private String expression;
+public class SyntheticRuleUnitWrapper implements Firable {
 
-    public void setExpression(String expression) {
-        this.expression = expression;
+    private final SyntheticRuleUnit wrapped;
+
+    public SyntheticRuleUnitWrapper(SyntheticRuleUnit wrapped) {
+        this.wrapped = wrapped;
     }
 
-    public String getExpression() {
-        return expression;
+    @Override
+    public int fire(Map<String, Object> context, YaRDDefinitions units) {
+        RuleUnitInstance<SyntheticRuleUnit> unitInstance = RuleUnitProvider.get().createRuleUnitInstance(wrapped);
+        return unitInstance.fire();
     }
 }

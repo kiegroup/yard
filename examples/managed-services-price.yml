@@ -22,4 +22,3 @@ elements:
       then: 4000
     - when: ['="Premium"', '>=10000']
       then: 4000 + 0.5 * Requests
----

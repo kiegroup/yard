@@ -16,20 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.kie.yard.api.model;
+package org.kie.yard.core;
 
-import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+import java.util.Map;
 
-@YAMLMapper
-public class LiteralExpression implements DecisionLogic {
+import org.junit.jupiter.api.Test;
 
-    private String expression;
+import static org.assertj.core.api.Assertions.assertThat;
 
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
+public class ExtraCostsTest
+        extends TestBase {
 
-    public String getExpression() {
-        return expression;
+    private static final String FILE_NAME = "/extra-costs.yml";
+
+    @Test
+    public void testMPackage() throws Exception {
+        final String CTX = """
+                {
+                    "Fragile":true,
+                    "Package Tracking":true,
+                    "Insurance":true,
+                    "Package Type":"M"
+                }
+                """;
+        Map<String, Object> outputJSONasMap = evaluate(CTX, FILE_NAME);
+        assertThat(outputJSONasMap).hasFieldOrPropertyWithValue("Total cost of premiums", 40);
     }
 }
