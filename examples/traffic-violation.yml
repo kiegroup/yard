@@ -26,4 +26,3 @@ elements:
    logic:
      type: LiteralExpression
      expression: 'if Driver.Points + Fine.Points >= 20 then "Yes" else "No"'
----

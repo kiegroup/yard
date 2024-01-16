@@ -16,20 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.kie.yard.api.model;
+package org.kie.yard.core;
 
-import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+import java.util.Map;
 
-@YAMLMapper
-public class LiteralExpression implements DecisionLogic {
+public interface Firable {
 
-    private String expression;
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public String getExpression() {
-        return expression;
-    }
+    int fire(Map<String, Object> context, YaRDDefinitions units);
 }

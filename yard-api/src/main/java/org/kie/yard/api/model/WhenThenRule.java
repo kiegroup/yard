@@ -18,18 +18,36 @@
  */
 package org.kie.yard.api.model;
 
-import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+import java.util.List;
 
-@YAMLMapper
-public class LiteralExpression implements DecisionLogic {
+public class WhenThenRule implements Rule {
 
-    private String expression;
+    private final int rowNumber;
+    private List when;
+    private Object then;
 
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public WhenThenRule(int rowNumber) {
+        this.rowNumber = rowNumber;
     }
 
-    public String getExpression() {
-        return expression;
+    @Override
+    public int getRowNumber() {
+        return rowNumber;
+    }
+
+    public List getWhen() {
+        return when;
+    }
+
+    public Object getThen() {
+        return then;
+    }
+
+    public void setWhen(List when) {
+        this.when = when;
+    }
+
+    public void setThen(Object then) {
+        this.then = then;
     }
 }

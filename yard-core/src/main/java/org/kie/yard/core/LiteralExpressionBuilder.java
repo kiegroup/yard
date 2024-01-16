@@ -16,20 +16,25 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.kie.yard.api.model;
+package org.kie.yard.core;
 
-import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+import org.kie.yard.api.model.LiteralExpression;
 
-@YAMLMapper
-public class LiteralExpression implements DecisionLogic {
+public class LiteralExpressionBuilder {
 
-    private String expression;
+    private final YaRDDefinitions definitions;
+    private final String name;
+    private final LiteralExpression decisionLogic;
 
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public LiteralExpressionBuilder(YaRDDefinitions definitions, String name, LiteralExpression decisionLogic) {
+        this.definitions = definitions;
+        this.name = name;
+        this.decisionLogic = decisionLogic;
     }
 
-    public String getExpression() {
-        return expression;
+    public Firable build() {
+        String expr = decisionLogic.getExpression();
+        definitions.outputs().put(name, StoreHandle.empty(Object.class));
+        return new LiteralExpressionInterpreter(name, QuotedExprParsed.from(expr));
     }
 }

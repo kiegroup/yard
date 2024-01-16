@@ -1,27 +1,47 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.kie.yard.api.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonValue;
+import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+import org.kie.j2cl.tools.yaml.mapper.api.annotation.YamlTypeDeserializer;
+import org.kie.j2cl.tools.yaml.mapper.api.annotation.YamlTypeSerializer;
 
-@JsonPropertyOrder({ "inputs", "hitPolicy", "rules" })
-public class DecisionTable extends DecisionLogic { 
-    @JsonProperty(required = true)
+@YAMLMapper
+public class DecisionTable implements DecisionLogic {
+
     private List<String> inputs;
-    @JsonProperty(defaultValue = "ANY")
     private String hitPolicy = "ANY";
     @Deprecated
-    @JsonPropertyDescription("deprecated")
-    @JsonProperty()
     private List<String> outputComponents;
-    @JsonProperty(required = true)
-    private List<Rule> rules;
+    @YamlTypeSerializer(RuleDefSerializer.class)
+    @YamlTypeDeserializer(RuleDefSerializer.class)
+    private List rules;
+
+    public void setInputs(List<String> inputs) {
+        this.inputs = inputs;
+    }
+
+    public void setOutputComponents(List<String> outputComponents) {
+        this.outputComponents = outputComponents;
+    }
 
     public List<String> getInputs() {
         return inputs;
@@ -40,48 +60,11 @@ public class DecisionTable extends DecisionLogic {
         this.hitPolicy = hitPolicy;
     }
 
-    public List<Rule> getRules() {
+    public List getRules() {
         return rules;
     }
 
-    /**
-     * TODO: anything which is NOT a string, is checked for equality in the target expressionLanguage, 
-     * a string is taken for the expression predicate AS-IS (in the target expressionLanguage)
-     */
-    @JsonTypeInfo(
-        use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = InlineRule.class)
-    @JsonSubTypes({ @JsonSubTypes.Type(value=InlineRule.class), @JsonSubTypes.Type(value=WhenThenRule.class) })
-    public static interface Rule {
-
-    }
-
-    public static class InlineRule implements Rule {
-        @JsonValue
-        public List<Object> def;
-        
-        @JsonCreator
-        public InlineRule(List<Object> data) {
-            this.def = data;
-        }
-
-        public List<Object> getDef() {
-            return def;
-        }
-    }
-
-    @JsonPropertyOrder({ "when", "then" })
-    public static class WhenThenRule implements Rule {
-        @JsonProperty(required = true)
-        private List<Object> when;
-        @JsonProperty(required = true)
-        private Object then;
-
-        public List<Object> getWhen() {
-            return when;
-        }
-
-        public Object getThen() {
-            return then;
-        }
+    public void setRules(List rules) {
+        this.rules = rules;
     }
 }

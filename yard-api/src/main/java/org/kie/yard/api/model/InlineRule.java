@@ -18,18 +18,28 @@
  */
 package org.kie.yard.api.model;
 
-import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+import java.util.List;
 
-@YAMLMapper
-public class LiteralExpression implements DecisionLogic {
+public class InlineRule implements Rule {
 
-    private String expression;
+    private final int rowNumber;
+    public List def;
 
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public InlineRule(int rowNumber, List data) {
+        this.rowNumber = rowNumber;
+        this.def = data;
     }
 
-    public String getExpression() {
-        return expression;
+    @Override
+    public int getRowNumber() {
+        return rowNumber;
+    }
+
+    public List getDef() {
+        return def;
+    }
+
+    public void setDef(List def) {
+        this.def = def;
     }
 }

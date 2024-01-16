@@ -18,18 +18,7 @@
  */
 package org.kie.yard.api.model;
 
-import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
+public interface Rule {
 
-@YAMLMapper
-public class LiteralExpression implements DecisionLogic {
-
-    private String expression;
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public String getExpression() {
-        return expression;
-    }
+    int getRowNumber();
 }
