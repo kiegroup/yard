@@ -1,0 +1,21 @@
+specVersion: alpha
+kind: YaRD
+name: 'CVEs'
+inputs:
+- name: 'numberCVEOpened'
+  type: integer
+elements:
+- name: 'CVEScore'
+  type: Decision
+  requirements: ['numberOfCVEOpened']
+  logic: 
+    type: DecisionTable
+    inputs: ['numberCVEOpened']
+    rules:
+    - when: ['>=5']
+      then: 0 # Bronze
+    - when: ['>=2']
+      then: 50 # silver
+    - when: ['=0']
+      then: 100
+---

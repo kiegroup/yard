@@ -1,0 +1,21 @@
+specVersion: alpha
+kind: YaRD
+name: 'SonarCloud'
+inputs:
+  - name: 'sonarCloudScore'
+    type: integer
+elements:
+  - name: 'sonarCloudScoreScoreCard'
+    type: Decision
+    requirements: [ 'sonarCloudScore' ]
+    logic:
+      type: DecisionTable
+      inputs: [ 'sonarCloudScore' ]
+      rules:
+        - when: [ '>=100' ]
+          then: { score: 100, "explanation" : "Code is perfect" }
+        - when: [ '<80' ]
+          then: { score: 0, "explanation" : "Code is total waste" }
+        - when: [ '>=80' ]
+          then: { score: 50, "explanation" : "Code needs some work to do" }
+---
