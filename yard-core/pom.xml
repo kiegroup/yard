@@ -12,6 +12,7 @@
 
     <properties>
         <java.module.name>org.kie.yard.core</java.module.name>
+        <maven.compiler.release>17</maven.compiler.release>
     </properties>
 
     <dependencies>
@@ -37,6 +38,11 @@
             <version>${version.jshell}</version>
         </dependency>
         <dependency>
+            <groupId>org.mvel</groupId>
+            <artifactId>mvel2</artifactId>
+            <version>${version.org.mvel}</version>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${version.jackson}</version>
@@ -52,6 +58,12 @@
             <artifactId>assertj-core</artifactId>
             <version>${version.org.assertj}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+            <version>${version.org.mockito}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>

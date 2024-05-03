@@ -51,8 +51,6 @@
         <maven.compiler.release>17</maven.compiler.release>
 
 
-
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <version.org.drools>8.44.0.Final</version.org.drools>
@@ -62,6 +60,8 @@
         <version.org.assertj>3.23.1</version.org.assertj>
         <version.yaml.mapper>0.4</version.yaml.mapper>
         <version.jshell>1.1.0</version.jshell>
+        <version.org.mvel>2.5.1.Final</version.org.mvel>
+        <version.org.mockito>4.11.0</version.org.mockito>
     </properties>
 
     <!-- distributionManagement section -->

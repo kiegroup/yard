@@ -21,7 +21,6 @@ package org.kie.yard.core;
 import java.io.IOException;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
 public class YaRDRunner {
@@ -40,14 +39,13 @@ public class YaRDRunner {
         return name;
     }
 
-    public String evaluate(final Map<String, Object> map) throws Exception {
-        final Map<String, Object> tempOutCtx = units.evaluate(map);
-        return jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(tempOutCtx);
+    public Map<String, Object> evaluate(final Map<String, Object> map) {
+        return units.evaluate(map);
     }
 
     public String evaluate(String jsonInputCxt) throws Exception {
         final Map<String, Object> inputContext = readJSON(jsonInputCxt);
-        return evaluate(inputContext);
+        return jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(evaluate(inputContext));
     }
 
     @SuppressWarnings("unchecked")
