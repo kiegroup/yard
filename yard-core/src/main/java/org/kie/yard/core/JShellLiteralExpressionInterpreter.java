@@ -18,9 +18,15 @@
  */
 package org.kie.yard.core;
 
-import javax.script.*;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 public class JShellLiteralExpressionInterpreter implements Firable {
 

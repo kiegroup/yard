@@ -85,13 +85,14 @@ public class DTableUnitBuilder {
         if (hitPolicy == null || Objects.equals("ANY", hitPolicy)) {
             return (ruleDefinition, storeHandle) -> {
                 final RuleCell rc = parseGenericRuleThen(ruleDefinition);
-                storeHandle.set(rc.value);
+                Object value = resolveValue(rc.value);
+                storeHandle.set(value);
             };
         } else if (Objects.equals("FIRST", hitPolicy)) {
             return (ruleDefinition, storeHandle) -> {
                 if (!storeHandle.isValuePresent()) {
                     final RuleCell rc = parseGenericRuleThen(ruleDefinition);
-                    storeHandle.set(rc.value);
+                    storeHandle.set(resolveValue(rc.value));
                 }
             };
         } else if (Objects.equals("COLLECT", hitPolicy)) {
@@ -102,7 +103,7 @@ public class DTableUnitBuilder {
                 final RuleCell rc = parseGenericRuleThen(ruleDefinition);
 
                 if (storeHandle.get() instanceof List list) {
-                    list.add(resolveValue(rc));
+                    list.add(resolveValue(rc.value));
                 }
             };
         } else {
@@ -110,14 +111,14 @@ public class DTableUnitBuilder {
         }
     }
 
-    private Object resolveValue(final RuleCell rc) {
+    private Object resolveValue(Object value) {
         try {
-            if (rc.value instanceof String text) {
+            if (value instanceof String text) {
                 return jsonMapper.readValue(text, Map.class);
             }
         } catch (JsonProcessingException ignored) {
         }
-        return rc.value;
+        return value;
     }
 
     private RuleCell parseGenericRuleThen(Rule rule) {
