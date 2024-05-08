@@ -23,7 +23,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import org.drools.ruleunits.api.DataSource;
 import org.kie.yard.api.model.DecisionLogic;
@@ -71,8 +70,8 @@ public class YaRDParser {
         int numRead;
         while ((numRead = reader.read(buf)) != -1) {
             String readData = String.valueOf(buf,
-                                             0,
-                                             numRead);
+                    0,
+                    numRead);
             fileData.append(readData);
             buf = new char[1024];
         }
@@ -92,10 +91,16 @@ public class YaRDParser {
     }
 
     private void appendUnits(List<Element> list) {
+        final List<String> existingNames = new ArrayList<>();
         for (Element hi : list) {
-            String nameString = hi.getName();
+            final String nameString = hi.getName();
+            if (existingNames.contains(nameString)) {
+                throw new IllegalArgumentException("Two element definitions with the same name are not allowed.");
+            } else {
+                existingNames.add(nameString);
+            }
             LOG.debug("parsing {}", nameString);
-            Firable decisionLogic = createDecisionLogic(nameString, hi.getLogic());
+            final Firable decisionLogic = createDecisionLogic(nameString, hi.getLogic());
             definitions.units().add(decisionLogic);
         }
     }
