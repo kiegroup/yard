@@ -30,21 +30,21 @@ import org.kie.j2cl.tools.yaml.mapper.api.node.YamlMapping;
 import org.kie.j2cl.tools.yaml.mapper.api.node.YamlNode;
 import org.kie.j2cl.tools.yaml.mapper.api.node.YamlSequence;
 
-public class RuleDefSerializer
-        implements YAMLSerializer<Object>,
-                   YAMLDeserializer<Object> {
+
+public class Rule_YamlDeserializerImpl
+        implements YAMLDeserializer<Rule> {
 
     private int rowNumber = 1;
 
     @Override
-    public Object deserialize(YamlMapping yamlMapping,
+    public Rule deserialize(YamlMapping yamlMapping,
                               String s,
                               YAMLDeserializationContext yamlDeserializationContext) throws YAMLDeserializationException {
         return deserialize(yamlMapping.getNode(s), yamlDeserializationContext);
     }
 
     @Override
-    public Object deserialize(YamlNode yamlNode,
+    public Rule deserialize(YamlNode yamlNode,
                               YAMLDeserializationContext yamlDeserializationContext) {
         if (yamlNode instanceof YamlSequence) {
             final List<Comparable> items = getItems(yamlNode);
@@ -57,7 +57,7 @@ public class RuleDefSerializer
             whenThenRule.setThen(then.asScalar().value());
             return whenThenRule;
         }
-        return new IllegalArgumentException("Unknown rule format.");
+        throw  new IllegalArgumentException("Unknown rule format.");
     }
 
     private List<Comparable> getItems(final YamlNode yamlNode) {
@@ -69,20 +69,5 @@ public class RuleDefSerializer
             });
         }
         return result;
-    }
-
-    @Override
-    public void serialize(YamlMapping yamlMapping,
-                          String s,
-                          Object objects,
-                          YAMLSerializationContext yamlSerializationContext) {
-        // Not needed, we never serialize.
-    }
-
-    @Override
-    public void serialize(YamlSequence yamlSequence,
-                          Object objects,
-                          YAMLSerializationContext yamlSerializationContext) {
-        // Not needed, we never serialize.
     }
 }

@@ -20,9 +20,11 @@ package org.kie.yard.api.model;
 
 import java.util.List;
 
+import org.kie.j2cl.tools.json.mapper.annotation.JSONMapper;
 import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
 
 @YAMLMapper
+@JSONMapper
 public class Element {
 
     private String name;

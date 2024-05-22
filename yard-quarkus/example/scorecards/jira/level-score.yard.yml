@@ -1,0 +1,19 @@
+specVersion: alpha
+kind: YaRD
+name: 'Open documentation tickets'
+inputs:
+  - name: Number of Jira Issues
+    type: number
+elements:
+  - name: Score
+    type: Decision
+    logic:
+      type: DecisionTable
+      hitPolicy: FIRST
+      inputs: ['Number of Jira Issues']
+      outputComponents: ['Score']
+      rules:
+        - ['0', 100]
+        - ['< 20', 50]
+        - ['< 80', 20]
+        - ['-', 0]

@@ -1,0 +1,5 @@
+name: Jira
+api: http://localhost:8081/jira/example2
+outputs:
+  - name: Number
+    from: total

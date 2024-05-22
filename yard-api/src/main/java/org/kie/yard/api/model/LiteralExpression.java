@@ -18,9 +18,11 @@
  */
 package org.kie.yard.api.model;
 
+import org.kie.j2cl.tools.json.mapper.annotation.JSONMapper;
 import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
 
 @YAMLMapper
+@JSONMapper
 public class LiteralExpression implements DecisionLogic {
 
     private String expression;

@@ -20,20 +20,26 @@ package org.kie.yard.api.model;
 
 import java.util.List;
 
+import jakarta.json.bind.annotation.JsonbTypeDeserializer;
+import jakarta.json.bind.annotation.JsonbTypeSerializer;
+import org.kie.j2cl.tools.json.mapper.annotation.JSONMapper;
 import org.kie.j2cl.tools.yaml.mapper.api.annotation.YAMLMapper;
 import org.kie.j2cl.tools.yaml.mapper.api.annotation.YamlTypeDeserializer;
 import org.kie.j2cl.tools.yaml.mapper.api.annotation.YamlTypeSerializer;
 
 @YAMLMapper
+@JSONMapper
 public class DecisionTable implements DecisionLogic {
 
     private List<String> inputs;
     private String hitPolicy = "ANY";
     @Deprecated
     private List<String> outputComponents;
-    @YamlTypeSerializer(RuleDefSerializer.class)
-    @YamlTypeDeserializer(RuleDefSerializer.class)
-    private List rules;
+    @YamlTypeSerializer(Rule_YamlSerializerImpl.class)
+    @YamlTypeDeserializer(Rule_YamlDeserializerImpl.class)
+    @JsonbTypeSerializer(RuleJSONDefSerializer.class)
+    @JsonbTypeDeserializer(RuleJSONDefSerializer.class)
+    private List<Rule> rules;
 
     public void setInputs(List<String> inputs) {
         this.inputs = inputs;
@@ -60,11 +66,11 @@ public class DecisionTable implements DecisionLogic {
         this.hitPolicy = hitPolicy;
     }
 
-    public List getRules() {
+    public List<Rule> getRules() {
         return rules;
     }
 
-    public void setRules(List rules) {
+    public void setRules(List<Rule> rules) {
         this.rules = rules;
     }
 }
