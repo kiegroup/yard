@@ -22,21 +22,36 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import org.kie.yard.api.model.YaRD;
 
 public class YaRDRunner {
 
     private final YaRDDefinitions definitions;
     private final JsonMapper jsonMapper = JsonMapper.builder().build();
-    private final String name;
+    private final YaRD model;
 
-    public YaRDRunner(final String yaml) throws IOException {
-        final YaRDParser parser = new YaRDParser(yaml);
-        name = parser.getModel().getName();
+    public YaRDRunner(final YaRD model) throws IOException {
+        final YaRDParser parser = YaRDParser.fromModel(model);
+        this.model = model;
         definitions = parser.getDefinitions();
     }
 
-    public String getName() {
-        return name;
+    public YaRDRunner(final String yaml) throws IOException {
+        final YaRDParser parser = YaRDParser.fromYaml(yaml);
+        model = parser.getModel();
+        definitions = parser.getDefinitions();
+    }
+
+    public YaRDRunner(final Map map) throws IOException {
+        final String json = jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+
+        final YaRDParser parser = YaRDParser.fromJson(json);
+        model = parser.getModel();
+        definitions = parser.getDefinitions();
+    }
+
+    public YaRD getModel() {
+        return model;
     }
 
     public Map<String, Object> evaluate(final Map<String, Object> map) {

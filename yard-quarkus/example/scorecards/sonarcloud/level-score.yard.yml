@@ -1,0 +1,18 @@
+specVersion: alpha
+kind: YaRD
+name: 'Level Score 2'
+inputs:
+  - name: Number of Jira Issues
+    type: number
+elements:
+  - name: Score
+    type: Decision
+    logic:
+      type: DecisionTable
+      hitPolicy: FIRST
+      inputs: ['Number of Jira Issues']
+      outputComponents: ['Score']
+      rules:
+        - [< 75, 20]
+        - [< 80, 50]
+        - [0, 100]

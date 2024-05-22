@@ -31,6 +31,17 @@
             <artifactId>common</artifactId>
             <version>${version.yaml.mapper}</version>
         </dependency>
+        <dependency>
+            <groupId>org.kie.j2cl.tools.json.mapper</groupId>
+            <artifactId>common</artifactId>
+            <version>${version.json.mapper}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>${version.org.glassfish.jakarta.json}</version>
+        </dependency>
 
         <dependency>
             <groupId>ch.obermuhlner</groupId>

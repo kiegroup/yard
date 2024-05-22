@@ -36,6 +36,14 @@
   </properties>
 
   <dependencies>
+
+
+    <dependency>
+      <groupId>org.kie.j2cl.tools.json.mapper</groupId>
+      <artifactId>common</artifactId>
+      <version>${version.json.mapper}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.kie.j2cl.tools.yaml.mapper</groupId>
       <artifactId>common</artifactId>
@@ -46,6 +54,12 @@
       <groupId>org.kie.j2cl.tools.yaml.mapper</groupId>
       <artifactId>processor</artifactId>
       <version>${version.yaml.mapper}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.j2cl.tools.json.mapper</groupId>
+      <artifactId>processor</artifactId>
+      <version>${version.json.mapper}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

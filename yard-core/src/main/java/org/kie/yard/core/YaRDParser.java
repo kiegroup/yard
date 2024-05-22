@@ -18,53 +18,37 @@
  */
 package org.kie.yard.core;
 
+import org.drools.ruleunits.api.DataSource;
+import org.kie.yard.api.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.drools.ruleunits.api.DataSource;
-import org.kie.yard.api.model.DecisionLogic;
-import org.kie.yard.api.model.Element;
-import org.kie.yard.api.model.Input;
-import org.kie.yard.api.model.YaRD;
-import org.kie.yard.api.model.YaRD_YamlMapperImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class YaRDParser {
-
-    private static final Logger LOG = LoggerFactory.getLogger(YaRDParser.class);
-    private final YaRDDefinitions definitions = new YaRDDefinitions(new HashMap<>(), new ArrayList<>(), new HashMap<>());
-    private final YaRD model;
-    private final String yaml;
-
-    public YaRDParser(Reader reader) throws Exception {
-        yaml = read(reader);
-        model = getModel(yaml);
-        parse(yaml);
+    static YaRDParser fromModel(final YaRD model) throws IOException {
+        return new YaRDParser(model);
+    }
+    static YaRDParser fromYaml(final String yaml) throws IOException {
+        final YaRD model = new YaRD_YamlMapperImpl().read(yaml);
+        return new YaRDParser(model);
     }
 
-    public YaRDParser(String yaml) throws IOException {
-        this.yaml = yaml;
-        model = getModel(yaml);
-        parse(yaml);
+    static YaRDParser fromYaml(final Reader reader) throws IOException {
+        final String text = read(reader);
+        return fromYaml(text);
     }
 
-    public YaRD getModel() {
-        return model;
+    static YaRDParser fromJson(String json) {
+        final YaRD model = new YaRD_JsonMapperImpl().fromJSON(json);
+        return new YaRDParser(model);
     }
 
-    public String getYaml() {
-        return yaml;
-    }
-
-    public YaRDDefinitions getDefinitions() {
-        return definitions;
-    }
-
-    private String read(Reader reader) throws Exception {
+    private static String read(Reader reader) throws IOException {
         final StringBuilder fileData = new StringBuilder(1000);
         char[] buf = new char[1024];
         int numRead;
@@ -79,18 +63,26 @@ public class YaRDParser {
         return fileData.toString();
     }
 
-    private YaRD getModel(String yaml) throws IOException {
-        return new YaRD_YamlMapperImpl().read(yaml);
+    private static final Logger LOG = LoggerFactory.getLogger(YaRDParser.class);
+    private final YaRDDefinitions definitions = new YaRDDefinitions(new HashMap<>(), new ArrayList<>(), new HashMap<>());
+    private final YaRD model;
+
+    private YaRDParser(final YaRD model) {
+        this.model = model;
+        appendInputs();
+        appendUnits();
     }
 
-    private YaRDDefinitions parse(String yaml) throws IOException {
-        final YaRD sd = new YaRD_YamlMapperImpl().read(yaml);
-        appendInputs(sd.getInputs());
-        appendUnits(sd.getElements());
+    public YaRD getModel() {
+        return model;
+    }
+
+    public YaRDDefinitions getDefinitions() {
         return definitions;
     }
 
-    private void appendUnits(List<Element> list) {
+    private void appendUnits() {
+        final List<Element> list = model.getElements();
         final List<String> existingNames = new ArrayList<>();
         for (Element hi : list) {
             final String nameString = hi.getName();
@@ -115,7 +107,8 @@ public class YaRDParser {
         }
     }
 
-    private void appendInputs(List<Input> list) {
+    private void appendInputs() {
+        final List<Input> list = model.getInputs();
         for (Input hi : list) {
             String nameString = hi.getName();
             @SuppressWarnings("unused")
