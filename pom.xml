@@ -85,7 +85,6 @@
     <modules>
         <module>yard-api</module>
         <module>yard-core</module>
-        <module>yard-quarkus</module>
     </modules>
 
 </project>

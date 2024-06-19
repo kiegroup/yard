@@ -1,5 +1,0 @@
-name: Sonarcloud
-api: http://localhost:8081/sonarcloud
-outputs:
-  - name: Number of Jira Issues
-    from: total
